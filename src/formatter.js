@@ -29,14 +29,28 @@
         // ─── DEFS ────────────────────────────────────────────────────────
         //
 
+            let result = '';
             let currentIndentationLevel = 0;
+            let currentCommentWidth = 1200;
 
         //
         // ─── FUNCTIONS ───────────────────────────────────────────────────
         //
 
             function handleNormalBunch ( bunch ) {
+                let formattedCode = typeScriptFormatter( bunch.value );
+                formattedCode = indent( formattedCode, currentIndentationLevel );
+                result += formattedCode;
+            }
 
+            function handleKFStartBunch ( bunch ) {
+                result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
+                currentIndentationLevel++;
+            }
+
+            function handleKFEndBunch ( bunch ) {
+                currentIndentationLevel--;
+                result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
             }
 
         //
@@ -49,12 +63,23 @@
                         handleNormalBunch( bunch );
                         break;
 
-                    
+                    case 'kfstart':
+                        handleKFStartBunch( bunch );
+                        break;
+
+                    case 'kfend':
+                        handleKFEndBunch( bunch );
+                        break;
                 }
             });
 
-        // ─────────────────────────────────────────────────────────────────
+        //
+        // ─── DONE ────────────────────────────────────────────────────────
+        //
 
+            return result;
+
+        // ─────────────────────────────────────────────────────────────────
     }
 
 //
