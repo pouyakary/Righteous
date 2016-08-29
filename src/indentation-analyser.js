@@ -13,6 +13,12 @@
     module.exports = code => {
 
         //
+        // ─── CONSTANTS ───────────────────────────────────────────────────
+        //
+
+            const codeLength = code.length;
+
+        //
         // ─── DEFS ────────────────────────────────────────────────────────
         //
 
@@ -29,14 +35,14 @@
         // ─── BODY ────────────────────────────────────────────────────────
         //
 
-            for ( let index = 0; index < code.length; index++ ) {
+            for ( let index = 0; index < codeLength; index++ ) {
                 // defs
                 let character = code[ index ];
 
                 // to make our life much more easy...
                 function skipString ( literal ) {
                     let onScapeSequenceSign = false;
-                    while ( index < code.length ) {
+                    while ( index < codeLength ) {
                         character = code[ index ];
                         if ( character === literal ) {
                             if ( onScapeSequenceSign === false ) {
@@ -61,9 +67,37 @@
                 }
 
 
+                // scape comments...
+                function skipComments ( ) {
+                    if ( index < codeLength ) {
+                        character = code[ ++index ];
+                        if ( character === '/' ) {
+                            while ( index < codeLength && code[ ++index ] !== '\n' ) { }
+
+                        } else if ( character === '*' && index + 3 < codeLength ) {
+                            let onAsterisk = false;
+                            while ( index < codeLength ) {
+                                character = code[ ++index ];
+                                if ( character === '*' ) {
+                                    onAsterisk = true;
+                                } else {
+                                    if ( character === '/' && onAsterisk ) {
+                                        return;
+                                    }
+                                    onAsterisk = false;
+                                }
+                            }
+
+                        } else {
+                            index--;
+                            return;
+                        }
+                    }
+                }
+
+
                 // body
                 switch ( character ) {
-
                     case '\n':
                         currentLine++;
                         break;
@@ -81,7 +115,6 @@
                         incrementNewIndentation( );
                         break;
 
-
                     case ')':
                         parenthesesIndentation--;
                         break;
@@ -96,6 +129,10 @@
                     case '"':
                     case '`':
                         skipString( character );
+                        break;
+
+                    case '/':
+                        skipComments( );
                         break;
                 }
             }
