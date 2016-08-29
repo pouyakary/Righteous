@@ -41,12 +41,29 @@
         //
 
             function karyFixer ( code ) {
+                // function name( -> function name (
                 code = code.replace(
                     /function ([a-zA-Z0-9\_]+)\(/g,
                     ( match, functionName ) => `function ${ functionName } (`
                 );
+
+                // [2, 3, 4] ->  [ 2, 3, 4 ]
                 code = code.replace( /\[(.)/g, ( match, char ) => `[ ${ char }` );
                 code = code.replace( /(.)\]/g, ( match, char ) => `${ char } ]` );
+
+                // () or (    ) => ( )
+                code = code.replace(
+                    /(\(\s*\)|\[\s*\]|\[\s*\])/g,
+                    ( match, text ) => {
+                        switch ( text[ 0 ] ) {
+                            case '[': return '[ ]';
+                            case '(': return '( )';
+                            case '{': return '{ }';
+                        }
+                    }
+                );
+
+                // and we're good...
                 return code;
             }
 

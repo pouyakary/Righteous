@@ -9,7 +9,7 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const typeScriptFormatter = require( './typescript-formatter.js' );
+    const typeScriptFormatter = require( './part-formatter.js' );
 
 //
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
@@ -31,7 +31,7 @@
 
             let result = '';
             let currentIndentationLevel = 0;
-            let currentCommentWidth = 1200;
+            let currentCommentWidth = 82;
 
         //
         // ─── FUNCTIONS ───────────────────────────────────────────────────
@@ -44,13 +44,18 @@
             }
 
             function handleKFStartBunch ( bunch ) {
+                if ( currentCommentWidth === bunch.width ) {
+                    currentIndentationLevel--;
+                }
+                currentCommentWidth = bunch.width;
                 result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
                 currentIndentationLevel++;
             }
 
             function handleKFEndBunch ( bunch ) {
                 currentIndentationLevel--;
-                result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
+                result += `\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n`;
+                currentIndentationLevel--;
             }
 
         //
@@ -71,6 +76,9 @@
                         handleKFEndBunch( bunch );
                         break;
                 }
+
+                console.log( bunch );
+                currentIndentationLevel += bunch.indentation;
             }
 
         //

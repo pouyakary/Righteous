@@ -27,7 +27,8 @@
             let curlyBracketsIndentation = 0;
 
             let currentLine = 0;
-            let lastAddedLine = -1;
+            let lastIncrementedLine = -1;
+            let lastDecrementedLine = -1;
 
             let totalIndentation = 0;
 
@@ -59,10 +60,17 @@
                 // incrementing indentation requires much care for cases like
                 // .forEach( something => {..., in one line ( and { are detected
                 // by line only requires one level of indentation...
-                function incrementNewIndentation ( ) {
-                    if ( currentLine > lastAddedLine ) {
-                        totalIndentation++;
-                        lastAddedLine = currentLine;
+                function changeTotalIndentationBy ( x ) {
+                    if ( x > 0 ) {
+                        if ( currentLine > lastIncrementedLine ) {
+                            totalIndentation += x;
+                            lastIncrementedLine = currentLine;
+                        }
+                    } else {
+                        if ( currentLine > lastDecrementedLine ) {
+                            totalIndentation += x;
+                            lastDecrementedLine = currentLine;
+                        }
                     }
                 }
 
@@ -104,25 +112,28 @@
 
                     case '(':
                         parenthesesIndentation++;
-                        incrementNewIndentation( );
+                        changeTotalIndentationBy( 1 );
                         break;
                     case '[':
                         bracketsIndentation++;
-                        incrementNewIndentation( );
+                        changeTotalIndentationBy( 1 );
                         break;
                     case '{':
                         curlyBracketsIndentation++;
-                        incrementNewIndentation( );
+                        changeTotalIndentationBy( 1 );
                         break;
 
                     case ')':
                         parenthesesIndentation--;
+                        changeTotalIndentationBy( -1 );
                         break;
                     case ']':
                         bracketsIndentation--;
+                        changeTotalIndentationBy( -1 );
                         break;
                     case '}':
                         curlyBracketsIndentation--;
+                        changeTotalIndentationBy( -1 );
                         break;
 
                     case "'":
@@ -141,11 +152,7 @@
         // ─── DONE ────────────────────────────────────────────────────────
         //
 
-            return {
-                parenthesesIndentation: parenthesesIndentation,
-                bracketsIndentation: bracketsIndentation,
-                curlyBracketsIndentation: curlyBracketsIndentation
-            }
+            return totalIndentation;
 
         // ─────────────────────────────────────────────────────────────────
 

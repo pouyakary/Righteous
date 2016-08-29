@@ -6,6 +6,12 @@
 //
 
 //
+// ─── IMPORTS ────────────────────────────────────────────────────────────────────
+//
+
+    const analyseIndentation = require( './indentation-analyser.js' );
+
+//
 // ─── CONSTANTS ──────────────────────────────────────────────────────────────────
 //
 
@@ -67,13 +73,13 @@
                     // reading the last //
                     else {
                         addALineToTheCurrentBunch( line );
-                        currentCommentWidth = line.trim( ).length;
                         onReadingKaryComment = 0;
                         endCurrentBunch( 'kfstart' );
                     }
                 }
 
                 else if ( sectionCommentRegex.test( line ) ) {
+                    currentCommentWidth = line.trim( ).length;
                     addALineToTheCurrentBunch( line );
                     onReadingKaryComment = 2;
                 }
@@ -98,7 +104,8 @@
                     kind: ( kind )? kind : 'normal',
                     value: currentBunch,
                     width: ( kind === 'kfstart' || kind === 'kfend' )?
-                        currentCommentWidth : null
+                        currentCommentWidth : null,
+                    indentation: analyseIndentation( currentBunch ),
                 });
                 currentBunch = '';
                 onReadingKaryComment = 0;
