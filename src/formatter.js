@@ -9,7 +9,7 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const typeScriptFormatter = require( './ts-formatter.js' );
+    const typeScriptFormatter = require( './typescript-formatter.js' );
 
 //
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
@@ -57,7 +57,7 @@
         // ─── BODY ────────────────────────────────────────────────────────
         //
 
-            tree.forEach( bunch => {
+            for ( bunch of tree ) {
                 switch ( bunch.kind ) {
                     case 'normal':
                         handleNormalBunch( bunch );
@@ -71,7 +71,7 @@
                         handleKFEndBunch( bunch );
                         break;
                 }
-            });
+            }
 
         //
         // ─── DONE ────────────────────────────────────────────────────────

@@ -116,14 +116,14 @@
         //
 
             // visit each and every line
-            code.split( '\n' ).forEach( line => {
+            for ( line of code.split( '\n' ) ) {
                 // single comment line
                 if ( /^\s*\/\//.test( line ) ) {
                     parseSingleLineComments( line );
                 } else {
                     addALineToTheCurrentBunch( line );
                 }
-            });
+            }
 
         //
         // ─── DONE ────────────────────────────────────────────────────────
