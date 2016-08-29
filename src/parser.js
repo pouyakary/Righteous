@@ -10,7 +10,7 @@
 //
 
     const sectionCommentRegex = /^\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*$/g;
-    const endingCommentRegex  = /^\s*\/\/ [\u2500]+\s$/g;
+    const endingCommentRegex  = /^\s*\/\/ [\u2500]+\s*$/g;
 
 //
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
@@ -68,25 +68,34 @@
                     else {
                         addALineToTheCurrentBunch( line );
                         onReadingKaryComment = 0;
-                        endCurrentBunch( );
+                        endCurrentBunch( 'kfstart' );
                     }
                 }
 
                 else if ( sectionCommentRegex.test( line ) ) {
                     addALineToTheCurrentBunch( line );
                     onReadingKaryComment = 2;
-                    currentCommentWidth = line.trim( ).length;
                 }
 
                 else if ( endingCommentRegex.test( line ) ) {
                     endCurrentBunch( );
+                    addALineToTheCurrentBunch( line );
+                    endCurrentBunch( 'kfend' );
+                }
+
+                else {
+                    addALineToTheCurrentBunch( line );
                 }
             }
 
-            /** End Current Bunch */
-            function endCurrentBunch ( ) {
+            /** End Current Bunch
+             * @param {string} kind normal | kfstart | kfend */
+            function endCurrentBunch ( kind ) {
                 bunchCleaned = true;
-                result.push( currentBunch );
+                result.push({
+                    kind: ( kind )? kind : 'normal',
+                    value: currentBunch
+                });
                 currentBunch = '';
                 onReadingKaryComment = 0;
             }
@@ -123,13 +132,5 @@
             return result;
 
         // ─────────────────────────────────────────────────────────────────
-
-    }
-
-//
-// ─── PARSE COMMENTS ─────────────────────────────────────────────────────────────
-//
-
-    function checkIfKaryComment ( comment ) {
 
     }
