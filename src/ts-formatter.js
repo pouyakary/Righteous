@@ -27,7 +27,17 @@
             sourceFile, getRuleProvider( options ), options );
 
         // Apply the edits on the input code
-        return applyEdits( code, edits );
+        let tsFinal = applyEdits( code, edits );
+
+        // Apply KF's function name spacing policy and done...
+        return functionNameFixer( tsFinal );
+
+        function functionNameFixer ( code ) {
+            return code.replace(
+                /function ([a-zA-Z0-9\_]+)\(/g,
+                ( match, functionName ) =>`function ${ functionName } (`
+            );
+        }
 
         function getRuleProvider ( options ) {
             // Share this between multiple formatters using the same options.
