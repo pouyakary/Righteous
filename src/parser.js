@@ -79,6 +79,7 @@
                 }
 
                 else if ( endingCommentRegex.test( line ) ) {
+                    currentCommentWidth = line.trim( ).length;
                     endCurrentBunch( );
                     addALineToTheCurrentBunch( line );
                     endCurrentBunch( 'kfend' );
