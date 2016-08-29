@@ -67,6 +67,7 @@
                     // reading the last //
                     else {
                         addALineToTheCurrentBunch( line );
+                        currentCommentWidth = line.trim( ).length;
                         onReadingKaryComment = 0;
                         endCurrentBunch( 'kfstart' );
                     }
@@ -94,7 +95,9 @@
                 bunchCleaned = true;
                 result.push({
                     kind: ( kind )? kind : 'normal',
-                    value: currentBunch
+                    value: currentBunch,
+                    width: ( kind === 'kfstart' || kind === 'kfend' )?
+                        currentCommentWidth : null
                 });
                 currentBunch = '';
                 onReadingKaryComment = 0;
