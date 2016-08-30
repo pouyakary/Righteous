@@ -44,23 +44,23 @@
         //
 
             function handleNormalBunch ( bunch ) {
-                if ( bunch.indentation.ends ) {
-                    currentIndentationLevel -= 2;
-                }
+                if ( bunch.indentation.ends )
+                    { currentIndentationLevel -= 2; };
+
                 let formattedCode = typeScriptFormatter( bunch.value );
                 formattedCode = indent( formattedCode, currentIndentationLevel );
                 result += formattedCode;
-                if ( bunch.indentation.opens ) {
-                    currentIndentationLevel += 2;
-                }
+
+                if ( bunch.indentation.opens )
+                    { currentIndentationLevel += 2 };
             }
 
         // ─────────────────────────────────────────────────────────────────
 
             function handleKFStartBunch ( bunch ) {
-                if ( currentCommentWidth === bunch.width ) {
-                    currentIndentationLevel--;
-                }
+                if ( currentCommentWidth === bunch.width )
+                    { currentIndentationLevel--; }
+
                 currentCommentWidth = bunch.width;
                 result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
                 currentIndentationLevel++;
@@ -101,6 +101,7 @@
             return result;
 
         // ─────────────────────────────────────────────────────────────────
+
     }
 
 //
