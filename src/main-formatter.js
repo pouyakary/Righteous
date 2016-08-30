@@ -33,15 +33,29 @@
             let currentIndentationLevel = 0;
             let currentCommentWidth = 82;
 
+        // ─────────────────────────────────────────────────────────────────
+
+            let currentParenthesesIndentation   = 0;
+            let currentBracketsIndentation      = 0;
+            let currentCurlyBracketsIndentation = 0;
+
         //
         // ─── FUNCTIONS ───────────────────────────────────────────────────
         //
 
             function handleNormalBunch ( bunch ) {
+                if ( bunch.indentation.ends ) {
+                    currentIndentationLevel -= 2;
+                }
                 let formattedCode = typeScriptFormatter( bunch.value );
                 formattedCode = indent( formattedCode, currentIndentationLevel );
                 result += formattedCode;
+                if ( bunch.indentation.opens ) {
+                    currentIndentationLevel += 2;
+                }
             }
+
+        // ─────────────────────────────────────────────────────────────────
 
             function handleKFStartBunch ( bunch ) {
                 if ( currentCommentWidth === bunch.width ) {
@@ -52,10 +66,12 @@
                 currentIndentationLevel++;
             }
 
+        // ─────────────────────────────────────────────────────────────────
+
             function handleKFEndBunch ( bunch ) {
                 currentIndentationLevel--;
-                result += `\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n`;
-                currentIndentationLevel--;
+                result += `\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n\r\n`;
+                currentIndentationLevel++;
             }
 
         //
@@ -76,9 +92,6 @@
                         handleKFEndBunch( bunch );
                         break;
                 }
-
-                console.log( bunch );
-                currentIndentationLevel += bunch.indentation;
             }
 
         //
@@ -100,7 +113,7 @@
      */
     function indent ( bunch, level ) {
         let indentationUnit = '';
-        for ( let i = 0; i < level; i++ ){
+        for ( let i = 0; i < level; i++ ) {
             indentationUnit += '    '; // 4 spaces
         }
         // I have to say, this is the coolest single line of code I've ever written
