@@ -22,25 +22,24 @@
         // ─── DEFS ────────────────────────────────────────────────────────
         //
 
-            let parenthesesIndentation = 0;
-            let bracketsIndentation = 0;
-            let curlyBracketsIndentation = 0;
+            let stack = [ ];
+
+            let opens = false;
+            let ends = false;
 
             let currentLine = 0;
-            let lastIncrementedLine = -1;
-            let lastDecrementedLine = -1;
-
-            let totalIndentation = 0;
 
         //
         // ─── BODY ────────────────────────────────────────────────────────
         //
+
 
             for ( let index = 0; index < codeLength; index++ ) {
                 // defs
                 let character = code[ index ];
 
                 // to make our life much more easy...
+                /** @param {string} literal */
                 function skipString ( literal ) {
                     let onScapeSequenceSign = false;
                     while ( index < codeLength ) {
@@ -57,9 +56,11 @@
                     }
                 }
 
+
                 // incrementing indentation requires much care for cases like
                 // .forEach( something => {..., in one line ( and { are detected
                 // by line only requires one level of indentation...
+                /** @param {number} x */
                 function changeTotalIndentationBy ( x ) {
                     if ( x > 0 ) {
                         if ( currentLine > lastIncrementedLine ) {
@@ -104,6 +105,23 @@
                 }
 
 
+                // check stack to pop
+                function popStack ( char ) {
+                    if ( stack.length === 0 ) {
+                        stack.push( char );
+                        ends = true;
+                        return;
+                    }
+                    let pairs = { '(': ')', '{': '}', '[': ']' };
+                    let TOS = stack.pop( );
+                    if ( TOS === ']' || TOS === '}' || TOS === ')' ) {
+                        stack.push( TOS );
+                        stack.push( char );
+                        ends = true;
+                    }
+                }
+
+
                 // body
                 switch ( character ) {
                     case '\n':
@@ -111,29 +129,15 @@
                         break;
 
                     case '(':
-                        parenthesesIndentation++;
-                        changeTotalIndentationBy( 1 );
-                        break;
                     case '[':
-                        bracketsIndentation++;
-                        changeTotalIndentationBy( 1 );
-                        break;
                     case '{':
-                        curlyBracketsIndentation++;
-                        changeTotalIndentationBy( 1 );
+                        stack.push( character );
                         break;
 
                     case ')':
-                        parenthesesIndentation--;
-                        changeTotalIndentationBy( -1 );
-                        break;
                     case ']':
-                        bracketsIndentation--;
-                        changeTotalIndentationBy( -1 );
-                        break;
                     case '}':
-                        curlyBracketsIndentation--;
-                        changeTotalIndentationBy( -1 );
+                        popStack( character );
                         break;
 
                     case "'":
@@ -149,10 +153,24 @@
             }
 
         //
+        // ─── CHECKING THE RESULTS ────────────────────────────────────────
+        //
+
+            if ( stack.length > 0 ) {
+                switch ( stack.pop( ) ) {
+                    case '(':
+                    case '{':
+                    case '[':
+                        opens = true;
+                        break;
+                }
+            }
+
+        //
         // ─── DONE ────────────────────────────────────────────────────────
         //
 
-            return totalIndentation;
+            return { opens: opens, ends: ends };
 
         // ─────────────────────────────────────────────────────────────────
 
