@@ -23,9 +23,7 @@
 //
 
 
-    module.exports = ( code ) => {
-        return getCommentIndentations( code );
-    }
+    module.exports = code => getCommentIndentations( code );
 
 //
 // ─── GET COMMENT INDENTATIONS ───────────────────────────────────────────────────
@@ -125,20 +123,18 @@
             // visit each and every line
             for ( line of code.split( '\n' ) ) {
                 // single comment line
-                if ( /^\s*\/\//.test( line ) ) {
+                if ( /^\s*\/\//.test( line ) )
                     parseSingleLineComments( line );
-                } else {
+                else
                     addALineToTheCurrentBunch( line );
-                }
             }
 
         //
         // ─── DONE ────────────────────────────────────────────────────────
         //
 
-            if ( bunchCleaned === false ) {
+            if ( bunchCleaned === false )
                 endCurrentBunch( );
-            }
 
             return result;
 

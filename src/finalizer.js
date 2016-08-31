@@ -10,7 +10,7 @@
 //
 
     module.exports = code => {
-        return code.replace( /^\s+$/gm, '\r\n' );
+        return code.replace( /\s+\n/gm, '\r\n' );
     }
 
 // ────────────────────────────────────────────────────────────────────────────────

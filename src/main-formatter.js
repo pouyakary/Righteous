@@ -15,9 +15,7 @@
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
 //
 
-    module.exports = ( tree ) => {
-        return format( tree );
-    }
+    module.exports = tree => format( tree );
 
 //
 // ─── BODY ───────────────────────────────────────────────────────────────────────
@@ -45,21 +43,23 @@
 
             function handleNormalBunch ( bunch ) {
                 if ( bunch.indentation.ends )
-                    { currentIndentationLevel -= 2; };
+                    currentIndentationLevel -= 2;
 
                 let formattedCode = typeScriptFormatter( bunch.value );
                 formattedCode = indent( formattedCode, currentIndentationLevel );
                 result += formattedCode;
 
                 if ( bunch.indentation.opens )
-                    { currentIndentationLevel += 2 };
+                    currentIndentationLevel += 2;
             }
 
         // ─────────────────────────────────────────────────────────────────
 
             function handleKFStartBunch ( bunch ) {
                 if ( currentCommentWidth === bunch.width )
-                    { currentIndentationLevel--; }
+                    currentIndentationLevel--;
+                else
+                    currentIndentationLevel++;
 
                 currentCommentWidth = bunch.width;
                 result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
@@ -114,9 +114,9 @@
      */
     function indent ( bunch, level ) {
         let indentationUnit = '';
-        for ( let i = 0; i < level; i++ ) {
+        for ( let i = 0; i < level; i++ )
             indentationUnit += '    '; // 4 spaces
-        }
+
         // I have to say, this is the coolest single line of code I've ever written
         return bunch.split( '\r\n' ).map( line => indentationUnit + line ).join('\r\n');
     }
