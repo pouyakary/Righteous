@@ -11,7 +11,6 @@
 
     const parser = require('./parts-parser.js');
     const formatter = require('./main-formatter.js');
-    const finalizer = require('./finalizer.js');
     const fs   = require( 'fs' );
     const path = require( 'path' );
 
@@ -19,7 +18,7 @@
 
     //console.log( tsFormatter( file ) );
 
-    console.log( finalizer( formatter( parser( file ) ) ) );
+    console.log(formatter( parser( file ) ) );
 
 
 // ────────────────────────────────────────────────────────────────────────────────

@@ -102,7 +102,7 @@
                     kind: ( kind )? kind : 'normal',
                     value: currentBunch,
                     width: ( kind === 'kfstart' || kind === 'kfend' )?
-                        currentCommentWidth : null,
+                        currentBunch.trim( ).length : null,
                     indentation: analyseIndentation( currentBunch ),
                 });
                 currentBunch = '';

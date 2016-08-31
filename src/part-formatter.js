@@ -63,6 +63,9 @@
                     }
                 );
 
+                // /** */ comments multi-line fixer
+                code = code.replace( /^(( {4})*)\*/gm, ( match, text ) => `${ text } *` );
+
                 // and we're good...
                 return code;
             }
