@@ -88,7 +88,6 @@
         //
 
             for ( bunch of tree ) {
-                console.log( bunch );
                 switch ( bunch.kind ) {
                     case 'normal':
                         handleNormalBunch( bunch );

@@ -16,6 +16,7 @@
 //
 
     const sectionCommentRegex = /^\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*$/g;
+    const wholeSectionCommentRegex = /^\s*\/\/\s*(\n\n|\n)\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*(\n\n|\n)\s*\/\/\s*$/gm;
     const endingCommentRegex  = /^\s*\/\/ [\u2500]+\s*$/g;
 
 //
@@ -97,6 +98,10 @@
             /** End Current Bunch
              * @param {string} kind normal | kfstart | kfend */
             function endCurrentBunch ( kind ) {
+                /*if ( kind === 'kfstart' &&
+                     !wholeSectionCommentRegex.test ( currentBunch ) ) {
+                    kind = 'normal';
+                }*/
                 bunchCleaned = true;
                 result.push({
                     kind: ( kind )? kind : 'normal',
