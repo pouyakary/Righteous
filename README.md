@@ -22,7 +22,7 @@ let myFormattedSourceFile = righteous( mySourceFile );
 ```
 The `.d.ts` declaration file is included within the project. Your compiler must auto detect it but if it can't then use:
 ```
-/node_modules/righteous/righteous.d.ts
+/node_modules/righteous/typings/righteous.d.ts
 ```
 
 <br />
