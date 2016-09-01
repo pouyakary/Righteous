@@ -50,11 +50,12 @@
         // ─────────────────────────────────────────────────────────────────
 
             function handleNormalBunch ( bunch ) {
+
                 if ( bunch.indentation.ends ) {
                     decreaseIndentationBy( 2 );
                 }
 
-                let formattedCode = typeScriptFormatter( bunch.value );
+                let formattedCode = typeScriptFormatter( bunch.value.trim( ) );
                 formattedCode = indent( formattedCode, currentIndentationLevel );
                 result += formattedCode;
 
@@ -68,7 +69,7 @@
             function handleKFStartBunch ( bunch ) {
                 decreaseIndentationBy( 1 );
                 currentCommentWidth = bunch.width;
-                result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
+                result += `\r\n\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
                 currentIndentationLevel++;
             }
 
@@ -79,7 +80,7 @@
                     decreaseIndentationBy( 1 );
                 }
                 decreaseIndentationBy( 1 );
-                result += `\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n\r\n`;
+                result += `\r\n\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n\r\n`;
                 currentIndentationLevel++;
             }
 
