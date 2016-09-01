@@ -1,5 +1,5 @@
 
-declare module "righteous" {
+declare module "righteous-core" {
     /**
      * Formatts a JavaScript / TypeScript code into
      * **Kary Foundation's** Standard Coding Style.

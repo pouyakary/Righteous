@@ -12,11 +12,11 @@ Kary Foundation Coding Style based code formating server for TypeScript and Java
 ### Usage?
 Installation:
 ```
-% npm install righteous --save
+% npm install righteous-core --save
 ```
 And then ready to use:
 ```TypeScript
-import righteous = require('righteous');
+import righteous = require('righteous-core');
 let mySourceFile = "..." // some source code...
 let myFormattedSourceFile = righteous( mySourceFile );
 ```
