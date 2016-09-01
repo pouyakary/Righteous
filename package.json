@@ -1,6 +1,6 @@
 {
   "name": "righteous",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Kary Foundation Style TypeScript and JavaScript Code Formatter Engine",
   "main": "src/index.js",
   "scripts": {
