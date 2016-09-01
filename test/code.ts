@@ -1,3 +1,10 @@
+
+//
+// Righteous - Kary Foundation Styled Code formatter
+//     Copyright 2016 By Kary Foundation, Inc.
+//     Author: Pouya Kary <k@karyfoundation.org>
+//
+
 //
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
@@ -8,9 +15,7 @@
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
 //
 
-    module.exports = ( tree ) => {
-        return format( tree );
-    }
+    module.exports = tree => format( tree );
 
 //
 // ─── BODY ───────────────────────────────────────────────────────────────────────
@@ -24,33 +29,59 @@
 
             let result = '';
             let currentIndentationLevel = 0;
-            let currentCommentWidth = 82;
+            let currentCommentWidth = 91;
+
+        // ─────────────────────────────────────────────────────────────────
+
+            let currentParenthesesIndentation   = 0;
+            let currentBracketsIndentation      = 0;
+            let currentCurlyBracketsIndentation = 0;
 
         //
         // ─── FUNCTIONS ───────────────────────────────────────────────────
         //
 
+            function decreaseIndentationBy ( x ) {
+                if ( currentIndentationLevel > 0 ) {
+                    currentIndentationLevel -= x;
+                }
+            }
+
+        // ─────────────────────────────────────────────────────────────────
+
             function handleNormalBunch ( bunch ) {
-                let formattedCode = typeScriptFormatter( bunch.value );
+
+                if ( bunch.indentation.ends ) {
+                    decreaseIndentationBy( 2 );
+                }
+
+                let formattedCode = typeScriptFormatter( bunch.value.trim( ) );
                 formattedCode = indent( formattedCode, currentIndentationLevel );
                 result += formattedCode;
-                if ( currentIndentationLevel > 0 ) {
-                    currentIndentationLevel--;
+
+                if ( bunch.indentation.opens ) {
+                    currentIndentationLevel += 2;
                 }
             }
+
+        // ─────────────────────────────────────────────────────────────────
 
             function handleKFStartBunch ( bunch ) {
-                result += `\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
-                if ( currentCommentWidth !== bunch.width ) {
-                    currentIndentationLevel++;
-                    //currentCommentWidth = bunch.width;
-                }
+                decreaseIndentationBy( 1 );
+                currentCommentWidth = bunch.width;
+                result += `\r\n\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
+                currentIndentationLevel++;
             }
 
+        // ─────────────────────────────────────────────────────────────────
+
             function handleKFEndBunch ( bunch ) {
-                currentIndentationLevel--;
-                result += `\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n`;
-                currentIndentationLevel--;
+                if ( bunch.width === 83 && currentCommentWidth === 76 ) {
+                    decreaseIndentationBy( 1 );
+                }
+                decreaseIndentationBy( 1 );
+                result += `\r\n\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n\r\n`;
+                currentIndentationLevel++;
             }
 
         //
@@ -71,10 +102,13 @@
                         handleKFEndBunch( bunch );
                         break;
                 }
-
-                console.log( bunch );
-                currentIndentationLevel += bunch.indentation;
             }
+
+        //
+        // ─── FINALIZING ──────────────────────────────────────────────────
+        //
+
+            result = result.replace( /\n    \n\n/gm, '' );
 
         //
         // ─── DONE ────────────────────────────────────────────────────────
@@ -83,6 +117,7 @@
             return result;
 
         // ─────────────────────────────────────────────────────────────────
+
     }
 
 //
@@ -95,9 +130,10 @@
      */
     function indent ( bunch, level ) {
         let indentationUnit = '';
-        for ( let i = 0; i < level; i++ ){
+        for ( let i = 0; i < level; i++ ) {
             indentationUnit += '    '; // 4 spaces
         }
+
         // I have to say, this is the coolest single line of code I've ever written
         return bunch.split( '\r\n' ).map( line => indentationUnit + line ).join('\r\n');
     }
