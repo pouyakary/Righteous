@@ -1,4 +1,5 @@
 
+
 //
 // Righteous - Kary Foundation Styled Code formatter
 //     Copyright 2016 By Kary Foundation, Inc.
@@ -31,10 +32,8 @@
             let currentIndentationLevel = 0;
             let currentCommentWidth = 91;
 
-        // ─────────────────────────────────────────────────────────────────
-
-            let currentParenthesesIndentation   = 0;
-            let currentBracketsIndentation      = 0;
+            let currentParenthesesIndentation = 0;
+            let currentBracketsIndentation = 0;
             let currentCurlyBracketsIndentation = 0;
 
         //
@@ -47,9 +46,9 @@
                 }
             }
 
-        // ─────────────────────────────────────────────────────────────────
 
             function handleNormalBunch ( bunch ) {
+                if ( bunch.value.trim( ) === '\n' ) return;
 
                 if ( bunch.indentation.ends ) {
                     decreaseIndentationBy( 2 );
@@ -64,23 +63,21 @@
                 }
             }
 
-        // ─────────────────────────────────────────────────────────────────
 
             function handleKFStartBunch ( bunch ) {
                 decreaseIndentationBy( 1 );
                 currentCommentWidth = bunch.width;
-                result += `\r\n\r\n${ indent( bunch.value , currentIndentationLevel ) }\r\n`
+                result += `\r\n\r\n${indent( bunch.value, currentIndentationLevel )}\r\n`
                 currentIndentationLevel++;
             }
 
-        // ─────────────────────────────────────────────────────────────────
 
             function handleKFEndBunch ( bunch ) {
                 if ( bunch.width === 83 && currentCommentWidth === 76 ) {
                     decreaseIndentationBy( 1 );
                 }
                 decreaseIndentationBy( 1 );
-                result += `\r\n\r\n${ indent( bunch.value.trim( ) , currentIndentationLevel ) }\r\n\r\n`;
+                result += `\r\n\r\n${indent( bunch.value.trim( ), currentIndentationLevel )}\r\n\r\n`;
                 currentIndentationLevel++;
             }
 
@@ -108,7 +105,7 @@
         // ─── FINALIZING ──────────────────────────────────────────────────
         //
 
-            result = result.replace( /\s+\n$/gm,'\n' );
+            result = result.replace( /\s+\n$/gm, '\n' );
 
         //
         // ─── DONE ────────────────────────────────────────────────────────
@@ -124,7 +121,8 @@
 // ─── INDENT ─────────────────────────────────────────────────────────────────────
 //
 
-    /** indents a line at a level that you want.
+    /**
+     * indents a line at a level that you want.
      * @param {string} bunch
      * @param {number} level
      */
@@ -135,7 +133,7 @@
         }
 
         // I have to say, this is the coolest single line of code I've ever written
-        return bunch.split( '\r\n' ).map( line => indentationUnit + line ).join('\r\n');
+        return bunch.split( '\r\n' ).map( line => indentationUnit + line ).join( '\r\n' );
     }
 
 // ────────────────────────────────────────────────────────────────────────────────

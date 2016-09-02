@@ -16,7 +16,7 @@
 //
 
     const sectionCommentRegex = /^\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*$/g;
-    const wholeSectionCommentRegex = /^\s*\/\/\s*(\n\n|\n)\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*(\n\n|\n)\s*\/\/\s*$/gm;
+    const wholeSectionCommentRegex = /^\s*\/\/\s*(\r\n|\n)\s*\/\/ [\u2500]{3}[A-Z0-9 ]+[\u2500]+\s*(\r\n|\n)\s*\/\/\s*$/gm;
     const endingCommentRegex  = /^\s*\/\/ [\u2500]+\s*$/g;
 
 //
@@ -43,15 +43,19 @@
 
             /** The resulting parts array */
             let result = [ ];
+
             /** Contains the last part node's value */
             let currentBunch = "";
+
             /** With of Kary Comments content. */
             let currentCommentWidth = 0;
+
             /**
              * 0 -> means no. 1 -> Means read the first line and 2 when it's reading the
              * content line' the sames
              */
             let onReadingKaryComment = 0;
+
             /** Bunch cleaned */
             let bunchCleaned = true;
 
@@ -98,10 +102,15 @@
             /** End Current Bunch
              * @param {string} kind normal | kfstart | kfend */
             function endCurrentBunch ( kind ) {
-                /*if ( kind === 'kfstart' &&
-                     !wholeSectionCommentRegex.test ( currentBunch ) ) {
+                /*
+                if ( kind === 'kfstart' &&
+                    !wholeSectionCommentRegex.test ( currentBunch ) ) {
+                    console.log(`---> ${ currentBunch }`);
                     kind = 'normal';
+                    currentBunch = '';
+                    return;
                 }*/
+
                 bunchCleaned = true;
                 result.push({
                     kind: ( kind )? kind : 'normal',
