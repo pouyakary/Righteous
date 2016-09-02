@@ -1,4 +1,5 @@
 
+
 //
 // Righteous - Kary Foundation Styled Code formatter
 //     Copyright 2016 By Kary Foundation, Inc.
@@ -10,7 +11,13 @@
 //
 
     /** @param {string} code */
-    module.exports = code => {
+    module.exports = code => analyseIndentation( code );
+
+//
+// ─── INDENTATION ANALYSER ───────────────────────────────────────────────────────
+//
+
+    function analyseIndentation ( code ) {
 
         //
         // ─── CONSTANTS ───────────────────────────────────────────────────
@@ -33,7 +40,6 @@
         // ─── BODY ────────────────────────────────────────────────────────
         //
 
-
             for ( let index = 0; index < codeLength; index++ ) {
                 // defs
                 let character = code[ index ];
@@ -43,7 +49,7 @@
                 function skipString ( literal ) {
                     let onScapeSequenceSign = false;
                     while ( index < codeLength ) {
-                        character = code[ index ];
+                        character = code[ ++index ];
                         if ( character === literal ) {
                             if ( onScapeSequenceSign === false ) {
                                 return;
@@ -160,7 +166,7 @@
                 switch ( stack.pop( ) ) {
                     case '(':
                     case '{':
-                    case '[':
+                    case '[   ':
                         opens = true;
                         break;
                 }

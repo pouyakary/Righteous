@@ -13,11 +13,11 @@
     const righteous = require( '../src/index.js' );
     const fs = require( 'fs' );
     const path = require( 'path' );
-    
+
     const code = fs.readFileSync( path.join( __dirname, 'code.ts' ), 'utf8' );
-    
-    console.log( righteous( code ) );
+
+    const formattedCode = righteous( code );
+
+    console.log( formattedCode );
 
 // ────────────────────────────────────────────────────────────────────────────────
-
-    

@@ -13,7 +13,7 @@
     module.exports = code => removeTrailingWhiteSpace( code );
 
 //
-// ─── BODY ───────────────────────────────────────────────────────────────────────
+// ─── WHITE SPACE REMOVER ────────────────────────────────────────────────────────
 //
 
     /** @param {string} code */
