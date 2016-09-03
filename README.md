@@ -1,6 +1,5 @@
 
-<img src="https://cloud.githubusercontent.com/assets/2157285/18159642/ea4d67e2-703e-11e6-9111-dae6fad8b766.png" width="130"
-> 
+<img src="https://cloud.githubusercontent.com/assets/2157285/18159642/ea4d67e2-703e-11e6-9111-dae6fad8b766.png" width="130" /> 
 
 # Righteous
 Kary Foundation Coding Style based code formating server for TypeScript and JavaScript for use within KF's IDES and Editors, presenting the following advantages:
