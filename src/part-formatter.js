@@ -15,7 +15,22 @@
 // ─── INTERFACE ──────────────────────────────────────────────────────────────────
 //
 
-    module.exports = code => {
+    /**
+     * @param {string} code
+     * @return {string}
+     */
+    module.exports = code => formatPart( code );
+
+
+//
+// ─── FORMAT PART ────────────────────────────────────────────────────────────────
+//
+
+    /**
+     * @param {string} code
+     * @return {string}
+     */
+    function formatPart ( code ) {
 
         //
         // ─── OPERATIONS ──────────────────────────────────────────────────
@@ -47,6 +62,7 @@
                     ( match, functionName ) => `function ${ functionName } (`
                 );
 
+                /*
                 // [2, 3, 4] ->  [ 2, 3, 4 ]
                 code = code.replace( /\[(.)/g, ( match, char ) => `[ ${ char }` );
                 code = code.replace( /(.)\]/g, ( match, char ) => `${ char } ]` );
@@ -62,6 +78,7 @@
                         }
                     }
                 );
+                */
 
                 // /** */ comments multi-line fixer
                 code = code.replace( /^(( {4})*)\*/gm, ( match, text ) => `${ text } *` );

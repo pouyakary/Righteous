@@ -166,7 +166,7 @@
                 switch ( stack.pop( ) ) {
                     case '(':
                     case '{':
-                    case '[   ':
+                    case '[':
                         opens = true;
                         break;
                 }
