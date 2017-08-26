@@ -1,46 +1,4 @@
-
-
-//
-// Righteous - Kary Foundation Styled Code formatter
-//     Copyright 2016 By Kary Foundation, Inc.
-//     Author: Pouya Kary <k@karyfoundation.org>
-//
-
-//
-// ─── MAIN ───────────────────────────────────────────────────────────────────────
-//
-
-    /** @param {string} code */
-    module.exports = code => analyseIndentation( code );
-
-//
-// ─── INDENTATION ANALYSER ───────────────────────────────────────────────────────
-//
-
-    function analyseIndentation ( code ) {
-
-        //
-        // ─── CONSTANTS ───────────────────────────────────────────────────
-        //
-
-            const codeLength = code.length;
-
-        //
-        // ─── DEFS ────────────────────────────────────────────────────────
-        //
-
-            let stack = [ ];
-
-            let opens = false;
-            let ends = false;
-
-            let currentLine = 0;
-
-        //
-        // ─── BODY ────────────────────────────────────────────────────────
-        //
-
-            for ( let index = 0; index < codeLength; index++ ) {
+       for ( let index = 0; index < codeLength; index++ ) {
                 // defs
                 let character = code[ index ];
 
@@ -138,12 +96,14 @@
                     case '[':
                     case '{':
                         stack.push( character );
+                        console.log( stack );
                         break;
 
                     case ')':
                     case ']':
                     case '}':
                         popStack( character );
+                        console.log( stack );
                         break;
 
                     case "'":
@@ -176,7 +136,7 @@
         // ─── DONE ────────────────────────────────────────────────────────
         //
 
-            return { opens: opens, ends: ends };
+            return { opens: opens, ends: ends, stack: stack };
 
         // ─────────────────────────────────────────────────────────────────
 

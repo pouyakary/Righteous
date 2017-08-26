@@ -10,13 +10,13 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const typeScriptFormatter = require( './part-formatter.js' );
+    const typeScriptFormatter = require( './part-formatter.js' )
 
 //
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
 //
 
-    module.exports = tree => format( tree );
+    module.exports = tree => format( tree )
 
 //
 // ─── BODY ───────────────────────────────────────────────────────────────────────
@@ -28,57 +28,60 @@
         // ─── DEFS ────────────────────────────────────────────────────────
         //
 
-            let result = '';
-            let currentIndentationLevel = 0;
-            let currentCommentWidth = 91;
+            let result = ''
+            let currentIndentationLevel = 0
+            let currentCommentWidth = 91
 
-            let currentParenthesesIndentation = 0;
-            let currentBracketsIndentation = 0;
-            let currentCurlyBracketsIndentation = 0;
+            let currentParenthesesIndentation = 0
+            let currentBracketsIndentation = 0
+            let currentCurlyBracketsIndentation = 0
 
         //
         // ─── FUNCTIONS ───────────────────────────────────────────────────
         //
 
             function decreaseIndentationBy ( x ) {
-                if ( currentIndentationLevel > 0 ) {
-                    currentIndentationLevel -= x;
-                }
+                if ( currentIndentationLevel > 0 )
+                    currentIndentationLevel -= x
             }
 
 
             function handleNormalBunch ( bunch ) {
-                if ( bunch.value.trim( ) === '\n' ) return;
+                if ( bunch.value.trim( ) === '\n' )
+                    return
 
-                if ( bunch.indentation.ends ) {
-                    decreaseIndentationBy( 2 );
-                }
+                if ( bunch.indentation.ends )
+                    decreaseIndentationBy( 2 )
 
-                let formattedCode = typeScriptFormatter( bunch.value.trim( ) );
-                formattedCode = indent( formattedCode, currentIndentationLevel );
-                result += formattedCode;
+                let formattedCode =
+                    typeScriptFormatter( bunch.value.trim( ) )
+                formattedCode =
+                    indent( formattedCode, currentIndentationLevel )
+                result +=
+                    formattedCode
 
-                if ( bunch.indentation.opens ) {
-                    currentIndentationLevel += 2;
-                }
+                if ( bunch.indentation.opens )
+                    currentIndentationLevel += 2
             }
 
 
             function handleKFStartBunch ( bunch ) {
-                decreaseIndentationBy( 1 );
-                currentCommentWidth = bunch.width;
-                result += `\r\n\r\n${indent( bunch.value, currentIndentationLevel )}\r\n`
-                currentIndentationLevel++;
+                decreaseIndentationBy( 1 )
+                currentCommentWidth = bunch.width
+                result +=
+                    `\r\n\r\n${ indent( bunch.value, currentIndentationLevel ) }\r\n`
+                currentIndentationLevel++
             }
 
 
             function handleKFEndBunch ( bunch ) {
-                if ( bunch.width === 83 && currentCommentWidth === 76 ) {
-                    decreaseIndentationBy( 1 );
-                }
-                decreaseIndentationBy( 1 );
-                result += `\r\n\r\n${indent( bunch.value.trim( ), currentIndentationLevel )}\r\n\r\n`;
-                currentIndentationLevel++;
+                if ( bunch.width === 83 && currentCommentWidth === 76 )
+                    decreaseIndentationBy( 1 )
+
+                decreaseIndentationBy( 1 )
+                result +=
+                    `\r\n\r\n${indent( bunch.value.trim( ), currentIndentationLevel )}\r\n\r\n`
+                currentIndentationLevel++
             }
 
         //
@@ -86,19 +89,19 @@
         //
 
             for ( bunch of tree ) {
-                console.log( bunch );
+                console.log( bunch )
                 switch ( bunch.kind ) {
                     case 'normal':
-                        handleNormalBunch( bunch );
-                        break;
+                        handleNormalBunch( bunch )
+                        break
 
                     case 'kfstart':
-                        handleKFStartBunch( bunch );
-                        break;
+                        handleKFStartBunch( bunch )
+                        break
 
                     case 'kfend':
-                        handleKFEndBunch( bunch );
-                        break;
+                        handleKFEndBunch( bunch )
+                        break
                 }
             }
 
@@ -106,13 +109,13 @@
         // ─── FINALIZING ──────────────────────────────────────────────────
         //
 
-            result = result.replace( /\s+\n$/gm, '\n' );
+            result = result.replace( /\s+\n$/gm, '\n' )
 
         //
         // ─── DONE ────────────────────────────────────────────────────────
         //
 
-            return result;
+            return result
 
         // ─────────────────────────────────────────────────────────────────
 
@@ -129,12 +132,13 @@
      */
     function indent ( bunch, level ) {
         let indentationUnit = '';
-        for ( let i = 0; i < level; i++ ) {
-            indentationUnit += '    '; // 4 spaces
-        }
+        for ( let i = 0; i < level; i++ )
+            indentationUnit += '    ' // 4 spaces
 
         // I have to say, this is the coolest single line of code I've ever written
-        return bunch.split( '\r\n' ).map( line => indentationUnit + line ).join( '\r\n' );
+        return bunch.split( '\r\n' )
+                    .map( line => indentationUnit + line )
+                    .join( '\r\n' )
     }
 
 // ────────────────────────────────────────────────────────────────────────────────

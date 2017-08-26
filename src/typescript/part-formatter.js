@@ -9,7 +9,7 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const ts = require('typescript');
+    const ts = require( 'typescript' )
 
 //
 // ─── INTERFACE ──────────────────────────────────────────────────────────────────
@@ -19,7 +19,7 @@
      * @param {string} code
      * @return {string}
      */
-    module.exports = code => formatPart( code );
+    module.exports = code => formatPart( code )
 
 
 //
@@ -36,20 +36,23 @@
         // ─── OPERATIONS ──────────────────────────────────────────────────
         //
 
-            let options = getDefaultOptions( );
+            let options = getDefaultOptions( )
 
             // Parse the source text
-            let sourceFile = ts.createSourceFile(
-                "file.ts", code, ts.ScriptTarget.Latest, true) ;
+            let sourceFile =
+                ts.createSourceFile( "file.ts", code, ts.ScriptTarget.Latest, true )
 
             // Get the formatting edits on the input sources
-            let edits = ts.formatting.formatDocument(
-                sourceFile, getRuleProvider( options ), options );
+            const ruleProvider =
+                getRuleProvider( options )
+            let edits =
+                ts.formatting.formatDocument( sourceFile, ruleProvider, options )
 
             // Apply the edits on the input code
-            let tsFinal = applyEdits( code, edits );
+            let tsFinal =
+                applyEdits( code, edits )
 
-            return karyFixer( tsFinal );
+            return karyFixer( tsFinal )
 
         //
         // ─── FIXING WHAT TYPESCRIPT CAN NOT ──────────────────────────────
@@ -60,7 +63,7 @@
                 code = code.replace(
                     /function ([a-zA-Z0-9\_]+)\(/g,
                     ( match, functionName ) => `function ${ functionName } (`
-                );
+                )
 
                 /*
                 // [2, 3, 4] ->  [ 2, 3, 4 ]
@@ -81,10 +84,11 @@
                 */
 
                 // /** */ comments multi-line fixer
-                code = code.replace( /^(( {4})*)\*/gm, ( match, text ) => `${ text } *` );
+                code =
+                    code.replace( /^(( {4})*)\*/gm, ( match, text ) => `${ text } *` )
 
                 // and we're good...
-                return code;
+                return code
             }
 
         //
@@ -94,9 +98,10 @@
             function getRuleProvider ( options ) {
                 // Share this between multiple formatters using the same options.
                 // This represents the bulk of the space the formatter uses.
-                let ruleProvider = new ts.formatting.RulesProvider( );
-                ruleProvider.ensureUpToDate( options );
-                return ruleProvider;
+                const ruleProvider =
+                    new ts.formatting.RulesProvider( )
+                ruleProvider.ensureUpToDate( options )
+                return ruleProvider
             }
 
         //
@@ -105,14 +110,18 @@
 
             function applyEdits ( text, edits ) {
                 // Apply edits in reverse on the existing text
-                let result = text;
+                let result = text
                 for ( let i = edits.length - 1; i >= 0; i-- ) {
-                    let change = edits[ i ];
-                    let head = result.slice( 0, change.span.start );
-                    let tail = result.slice( change.span.start + change.span.length );
-                    result = head + change.newText + tail;
+                    const change =
+                        edits[ i ]
+                    const head =
+                        result.slice( 0, change.span.start )
+                    const tail =
+                        result.slice( change.span.start + change.span.length )
+                    result =
+                        head + change.newText + tail
                 }
-                return result;
+                return result
             }
 
         //
@@ -121,19 +130,19 @@
 
             function getDefaultOptions ( ) {
                 return {
-                    IndentSize: 4,
-                    TabSize: 4,
-                    NewLineCharacter: '\r\n',
                     ConvertTabsToSpaces: true,
+                    IndentSize: 4,
                     InsertSpaceAfterCommaDelimiter: true,
+                    InsertSpaceAfterFunctionKeywordForAnonymousFunctions: true,
+                    InsertSpaceAfterKeywordsInControlFlowStatements: true,
+                    InsertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis: true,
                     InsertSpaceAfterSemicolonInForStatements: true,
                     InsertSpaceBeforeAndAfterBinaryOperators: true,
-                    InsertSpaceAfterKeywordsInControlFlowStatements: true,
-                    InsertSpaceAfterFunctionKeywordForAnonymousFunctions: true,
-                    InsertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis: true,
-                    PlaceOpenBraceOnNewLineForFunctions: false,
+                    NewLineCharacter: '\r\n',
                     PlaceOpenBraceOnNewLineForControlBlocks: false,
-                };
+                    PlaceOpenBraceOnNewLineForFunctions: false,
+                    TabSize: 4,
+                }
             }
 
         // ─────────────────────────────────────────────────────────────────

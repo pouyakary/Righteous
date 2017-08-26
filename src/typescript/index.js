@@ -10,14 +10,14 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const parser = require( './parts-parser.js' );
-    const formatter = require( './main-formatter.js' );
-    const finalizer = require( './finalizer.js' );
+    const parser    = require( './parts-parser.js' )
+    const formatter = require( './main-formatter.js' )
+    const finalizer = require( './finalizer.js' )
 
 //
 // ─── MAIN ───────────────────────────────────────────────────────────────────────
 //
 
-    module.exports = code => finalizer( formatter( parser( code ) ) );
+    module.exports = code => finalizer( formatter( parser( code ) ) )
 
 // ────────────────────────────────────────────────────────────────────────────────

@@ -10,11 +10,11 @@
 // ─── TEST ───────────────────────────────────────────────────────────────────────
 //
 
-    const righteous = require( '../src/index.js' );
+    const righteous = require( '../src/typescript/index.js' );
     const fs = require( 'fs' );
     const path = require( 'path' );
 
-    const code = fs.readFileSync( path.join( __dirname, 'code.ts' ), 'utf8' );
+    const code = fs.readFileSync( path.join( __dirname, 'code.js' ), 'utf8' );
 
     const formattedCode = righteous( code );
 

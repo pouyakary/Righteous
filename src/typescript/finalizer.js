@@ -18,7 +18,9 @@
 
     /** @param {string} code */
     function removeTrailingWhiteSpace ( code ) {
-        return code.split( '\n' ).map( line => line.replace( /[ \t]+$/m, '' ) ).join( '\n' );
+        return code .split( '\n' )
+                    .map( line => line.replace( /[ \t]+$/m, '' ) )
+                    .join( '\n' )
     }
 
 // ────────────────────────────────────────────────────────────────────────────────
