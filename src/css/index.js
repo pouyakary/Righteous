@@ -17,6 +17,10 @@
             font-weight: bold;
         }
 
+        /*
+         *   hello world
+         */
+
         :root,
         a:focus,
         p,
@@ -38,13 +42,31 @@
         const { rules } = stylesheet
         const results = [ ]
 
-        const sortedRules =
-            rules.sort( ( a, b ) => getRuleHeader( a ) > getRuleHeader( b ) )
-
-        for ( const rule of sortedRules )
-            results.push( formatRule( rule ) )
+        for ( const element of rules )
+            if ( element.type === 'rule' )
+                results.push( formatRule( element ) )
+            else if ( element.type === 'comment' )
+                results.push( formatComment( element ) )
 
         return results.join('\n\n')
+    }
+
+//
+// ─── FORMAT COMMENT ─────────────────────────────────────────────────────────────
+//
+
+    function formatComment ( element ) {
+        const { comment } = element
+
+        if ( !/\n/.test( comment ) )
+            return '/* ' + comment.trim( ) + '*/';
+
+        const newComment =
+            comment .split('\n')
+                    .map( line => " " + line.trim( ) )
+                    .join('\n')
+
+        return '/*' + newComment + '*/';
     }
 
 //
