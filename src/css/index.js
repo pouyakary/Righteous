@@ -80,7 +80,8 @@
         const formattedHeader = getRuleHeader( rule )
 
         // body
-        const formattedDecelerations = [ ]
+        const formattedDecelerations =
+            new Array( )
         const maxPropertyLength =
             getMaxPropertyNameLength( declarations )
         const padSize =
