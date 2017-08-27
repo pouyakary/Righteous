@@ -38,7 +38,7 @@
             else if ( element.type === 'comment' )
                 results.push( formatComment( element ) )
 
-        return results.join('\n\n')
+        return "\n" + results.join('\n\n') + "\n"
     }
 
 //
