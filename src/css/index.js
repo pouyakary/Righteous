@@ -72,16 +72,17 @@
             filterVariablesAndProperties( declarations )
 
         const formattedVariables =
-            formatVariables( listOfVariables, formattedDecelerations )
+            formatVariables( listOfVariables )
         const formattedProperties =
-            formatProperties( listOfProperties, formattedDecelerations )
+            formatProperties( listOfProperties )
 
         const separator =
-            (( formattedVariables.length > 0 & formattedProperties.length > 0 )
-                ? " " : null )
+            (( formattedVariables.length > 0 && formattedProperties.length > 0 )
+                ? [ " " ]
+                : [ ] )
 
         const formattedDecelerations =
-            [ ...formattedVariables, separator ,...formattedProperties ]
+            [ ...formattedVariables, ...separator, ...formattedProperties ]
         const formattedBody =
             indentCodeByOneLevel( formattedDecelerations.join( '\n' ) )
 
