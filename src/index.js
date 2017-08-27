@@ -10,7 +10,7 @@
 // ─── INDEX ──────────────────────────────────────────────────────────────────────
 //
 
-    return {
+    module.exports = {
         ecmascriptFormatter,
         cssFormatter
     }
