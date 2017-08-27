@@ -13,6 +13,17 @@
     const css = require( 'css' )
 
 //
+// ─── FORMATTERS BASED ON TYPE ───────────────────────────────────────────────────
+//
+
+    const formatters = {
+        comment:    formatComment,
+        media:      formatMedia,
+        rule:       formatRule,
+        page:       formatRule,
+    }
+
+//
 // ─── CSS FORMATTER MAIN ─────────────────────────────────────────────────────────
 //
 
@@ -31,14 +42,36 @@
     function formatStyleSheet ( stylesheet ) {
         const { rules } = stylesheet
         const results = [ ]
+        const formattedBodyRules = formatBodyOfRules( rules )
+        return "\n" + formattedBodyRules.join('\n\n') + "\n"
+    }
 
-        for ( const element of rules )
-            if ( element.type === 'rule' )
-                results.push( formatRule( element ) )
-            else if ( element.type === 'comment' )
-                results.push( formatComment( element ) )
+//
+// ─── FORMAT RULES BODY ──────────────────────────────────────────────────────────
+//
 
-        return "\n" + results.join('\n\n') + "\n"
+    function formatBodyOfRules ( rules ) {
+        const results = [ ]
+        for ( const element of rules ) {
+            const formatter = formatters[ element.type ]
+            results.push( formatter( element ) )
+        }
+        return results
+    }
+
+//
+// ─── FORMAT MEDIA ───────────────────────────────────────────────────────────────
+//
+
+    function formatMedia ( element ) {
+        const { media, rules } = element
+
+        const formattedBodyRules =
+            formatBodyOfRules( rules )
+        const formattedBodyString =
+            indentCodeByOneLevel( formattedBodyRules.join('\n\n') )
+
+        return "@media " + media + " {\n" + formattedBodyString + "\n}"
     }
 
 //
@@ -63,11 +96,10 @@
 // ─── SORT RULES ─────────────────────────────────────────────────────────────────
 //
 
-    function formatRule ( rule ) {
-        const { selectors, declarations } =
-            rule
+    function formatRule ( element ) {
+        const { selectors, declarations, type } = element
         const formattedHeader =
-            getRuleHeader( rule )
+            getRuleHeader( element )
         const { listOfProperties, listOfVariables } =
             filterVariablesAndProperties( declarations )
 
@@ -210,10 +242,17 @@
 // ─── GET RULE HEADER ────────────────────────────────────────────────────────────
 //
 
-    function getRuleHeader ( rule ) {
-        const { selectors } = rule
-        return selectors.sort( )
-                        .join(', ')
+    function getRuleHeader ( element ) {
+        const { selectors, type } = element
+        const selectorsFormatted =
+            selectors.sort( ).join(', ')
+
+        console.log( element )
+
+        if ( type === 'page' )
+            return '@page' + selectorsFormatted
+        else
+            return selectorsFormatted
     }
 
 // ────────────────────────────────────────────────────────────────────────────────
