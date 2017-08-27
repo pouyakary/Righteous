@@ -7,32 +7,22 @@
 //
 
 //
+// ─── IMPORTS ────────────────────────────────────────────────────────────────────
+//
+
+    const css = require( 'css' )
+
+//
 // ─── CSS FORMATTER MAIN ─────────────────────────────────────────────────────────
 //
 
-    const css = require('css')
-
-    const ast = css.parse(`
-        b {
-            font-weight: bold;
-        }
-
-        /*
-         *   hello world
-         */
-
-        :root,
-        a:focus,
-        p,
-        h1, h2, strong {
-            margin: 20pt;
-            --var-name: calc( 20pt );
-        }
-    `)
-
-    const formattedStyleSheet = formatStyleSheet( ast.stylesheet )
-
-    console.log( formattedStyleSheet )
+    function format ( code ) {
+        const ast =
+            css.parse( code )
+        const formattedStyleSheet =
+            formatStyleSheet( ast.stylesheet )
+        return formattedStyleSheet
+    }
 
 //
 // ─── FORMAT STYLESHEET ──────────────────────────────────────────────────────────
@@ -74,31 +64,80 @@
 //
 
     function formatRule ( rule ) {
-        const { selectors, declarations } = rule
-
-        // header
-        const formattedHeader = getRuleHeader( rule )
-
-        // body
+        const { selectors, declarations } =
+            rule
+        const formattedHeader =
+            getRuleHeader( rule )
         const formattedDecelerations =
             new Array( )
+        const { listOfProperties, listOfVariables } =
+            filterVariablesAndProperties( declarations )
+
+        formatVariables( listOfVariables, formattedDecelerations )
+        formatProperties( listOfProperties, formattedDecelerations )
+
+        const formattedBody =
+            indentCodeByOneLevel( formattedDecelerations.join( '\n' ) )
+
+        return formattedHeader + " {\n" + formattedBody + "\n}"
+    }
+
+//
+// ─── FILTER VARIABLES AND PROPERTIES ────────────────────────────────────────────
+//
+
+    function filterVariablesAndProperties ( declarations ) {
+        const listOfProperties = [ ]
+        const listOfVariables = [ ]
+        for ( const deceleration of declarations )
+            if (  deceleration.property.startsWith( '--' ) )
+                listOfVariables.push( deceleration )
+            else
+                listOfProperties.push( deceleration )
+
+        return { listOfProperties, listOfVariables }
+    }
+
+//
+// ─── FORMAT VARIABLES ───────────────────────────────────────────────────────────
+//
+
+    function formatVariables ( listOfVariables, formattedDecelerations ) {
+        const sortedVariables =
+            sortDeclarationList( listOfVariables )
+
+        for ( const variableDeceleration of sortedVariables )
+            formattedDecelerations.push(
+                formatSingleVariableDeceleration( variableDeceleration ))
+
+        if ( formattedDecelerations.length > 0 )
+            formattedDecelerations.push(' ')
+    }
+
+//
+// ─── FORMAT PROPERTIES ──────────────────────────────────────────────────────────
+//
+
+    function formatProperties ( listOfProperties, formattedDecelerations ) {
+        const sortedProperties =
+            sortDeclarationList( listOfProperties )
         const maxPropertyLength =
-            getMaxPropertyNameLength( declarations )
+            getMaxPropertyNameLength( listOfProperties )
         const padSize =
             ( Math.ceil( ( maxPropertyLength + 1 ) / 4 ) + 1 ) * 4
 
-        const sortedDeclarations =
-            declarations.sort( ( a, b ) => a.property > b.property )
-
-        for ( const deceleration of sortedDeclarations )
+        for ( const propertyDeceleration of sortedProperties )
             formattedDecelerations.push(
-                formatSingleDeceleration( deceleration, maxPropertyLength, padSize ))
+                formatSinglePropertyDeceleration(
+                    propertyDeceleration, maxPropertyLength, padSize ))
+    }
 
-        const formattedBody =
-            indentCodeByOneLevel( formattedDecelerations.join('\n') )
+//
+// ─── SORT PROPERTY NAMES ────────────────────────────────────────────────────────
+//
 
-        // done
-        return formattedHeader + " {\n" + formattedBody + "\n}"
+    function sortDeclarationList ( decelerationList ) {
+        return decelerationList.sort( ( a, b ) => a.property > b.property )
     }
 
 //
@@ -130,12 +169,21 @@
 // ─── FORMAT SINGLE DECLARATION ──────────────────────────────────────────────────
 //
 
-    function formatSingleDeceleration ( deceleration, maxPropertyLength, padSize ) {
+    function formatSinglePropertyDeceleration ( deceleration, maxPropertyLength, padSize ) {
         const { property, value } = deceleration
         const paddedPropertyName =
             padPropertyNameWithMaxLength( property, maxPropertyLength, padSize )
 
         return paddedPropertyName + value + ';'
+    }
+
+//
+// ─── FORMAT SINGLE VARIABLE DECELERATION ────────────────────────────────────────
+//
+
+    function formatSingleVariableDeceleration ( deceleration ) {
+        const { property, value } = deceleration
+        return property + ':\n    ' + value + ';'
     }
 
 //
@@ -154,7 +202,8 @@
 
     function getRuleHeader ( rule ) {
         const { selectors } = rule
-        return selectors.sort( ).join(', ')
+        return selectors.sort( )
+                        .join(', ')
     }
 
 // ────────────────────────────────────────────────────────────────────────────────
