@@ -68,14 +68,20 @@
             rule
         const formattedHeader =
             getRuleHeader( rule )
-        const formattedDecelerations =
-            new Array( )
         const { listOfProperties, listOfVariables } =
             filterVariablesAndProperties( declarations )
 
-        formatVariables( listOfVariables, formattedDecelerations )
-        formatProperties( listOfProperties, formattedDecelerations )
+        const formattedVariables =
+            formatVariables( listOfVariables, formattedDecelerations )
+        const formattedProperties =
+            formatProperties( listOfProperties, formattedDecelerations )
 
+        const separator =
+            (( formattedVariables.length > 0 & formattedProperties.length > 0 )
+                ? " " : null )
+
+        const formattedDecelerations =
+            [ ...formattedVariables, separator ,...formattedProperties ]
         const formattedBody =
             indentCodeByOneLevel( formattedDecelerations.join( '\n' ) )
 
@@ -102,23 +108,24 @@
 // ─── FORMAT VARIABLES ───────────────────────────────────────────────────────────
 //
 
-    function formatVariables ( listOfVariables, formattedDecelerations ) {
+    function formatVariables ( listOfVariables ) {
+        const results = [ ]
         const sortedVariables =
             sortDeclarationList( listOfVariables )
 
         for ( const variableDeceleration of sortedVariables )
-            formattedDecelerations.push(
+            results.push(
                 formatSingleVariableDeceleration( variableDeceleration ))
 
-        if ( formattedDecelerations.length > 0 )
-            formattedDecelerations.push(' ')
+        return results
     }
 
 //
 // ─── FORMAT PROPERTIES ──────────────────────────────────────────────────────────
 //
 
-    function formatProperties ( listOfProperties, formattedDecelerations ) {
+    function formatProperties ( listOfProperties ) {
+        const results = [ ]
         const sortedProperties =
             sortDeclarationList( listOfProperties )
         const maxPropertyLength =
@@ -127,9 +134,11 @@
             ( Math.ceil( ( maxPropertyLength + 1 ) / 4 ) + 1 ) * 4
 
         for ( const propertyDeceleration of sortedProperties )
-            formattedDecelerations.push(
+            results.push(
                 formatSinglePropertyDeceleration(
-                    propertyDeceleration, maxPropertyLength, padSize ))
+                    propertyDeceleration, maxPropertyLength, padSize ) )
+
+        return results
     }
 
 //
