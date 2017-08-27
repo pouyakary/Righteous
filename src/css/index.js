@@ -82,7 +82,7 @@
         const { comment } = element
 
         if ( !/\n/.test( comment ) )
-            return '/* ' + comment.trim( ) + ' */';
+            return '\n\n/* ' + comment.trim( ) + ' */';
 
         const newComment =
             comment .split('\n')
