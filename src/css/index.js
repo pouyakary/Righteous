@@ -49,7 +49,7 @@
         const { comment } = element
 
         if ( !/\n/.test( comment ) )
-            return '/* ' + comment.trim( ) + '*/';
+            return '/* ' + comment.trim( ) + ' */';
 
         const newComment =
             comment .split('\n')
