@@ -16,7 +16,7 @@
 // ─── CSS FORMATTER MAIN ─────────────────────────────────────────────────────────
 //
 
-    function format ( code ) {
+    module.exports = code => {
         const ast =
             css.parse( code )
         const formattedStyleSheet =
