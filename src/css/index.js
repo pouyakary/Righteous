@@ -43,7 +43,7 @@
         const { rules } = stylesheet
         const results = [ ]
         const formattedBodyRules = formatBodyOfRules( rules )
-        return "\n" + formattedBodyRules.join('\n\n') + "\n"
+        return "\n" + formattedBodyRules.join('\n\n').trim( ) + "\n"
     }
 
 //
