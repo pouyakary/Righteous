@@ -179,7 +179,7 @@
         for ( const propertyDeceleration of sortedProperties )
             results.push(
                 formatSinglePropertyDeceleration(
-                    propertyDeceleration, maxPropertyLength, padSize ) )
+                    propertyDeceleration, padSize ) )
 
         return results
     }
@@ -203,28 +203,13 @@
     }
 
 //
-// ─── PAD PROPERTY NAME WITH MAX LENGTH TO THE STANDARD SIZE ─────────────────────
-//
-
-    function padPropertyNameWithMaxLength ( propertyName, maxPropertyLength, padSize ) {
-        const buffer =
-            propertyName.split('')
-        buffer.push(':')
-
-        for ( let counter = buffer.length; counter < padSize; counter++ )
-            buffer.push(' ')
-
-        return buffer.join('')
-    }
-
-//
 // ─── FORMAT SINGLE DECLARATION ──────────────────────────────────────────────────
 //
 
-    function formatSinglePropertyDeceleration ( deceleration, maxPropertyLength, padSize ) {
+    function formatSinglePropertyDeceleration ( deceleration, padSize ) {
         const { property, value } = deceleration
         const paddedPropertyName =
-            padPropertyNameWithMaxLength( property, maxPropertyLength, padSize )
+            ( property + ":" ).padEnd( padSize )
 
         return paddedPropertyName + value + ';'
     }
@@ -256,8 +241,6 @@
         const { selectors, type } = element
         const selectorsFormatted =
             selectors.sort( ).join(', ')
-
-        console.log( element )
 
         if ( type === 'page' )
             return '@page' + selectorsFormatted
