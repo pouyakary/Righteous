@@ -4,29 +4,22 @@
 //
 
     const { cssFormatter } = require( '../src/index.js' )
+    const fs = require( 'fs' )
+    const path = require( 'path' )
 
 //
 // ─── SAMPLE CODE ────────────────────────────────────────────────────────────────
 //
 
-    const sampleCode = (`
-        figure.wide-image > figcaption {
-            --horizontal-margin:
-                calc( var( --image-wide-caption-page-margin ) - var( --image-wide-margin ) );
+    const getFileAddress = fileName =>
+        path.join( __dirname, fileName )
 
-            font-family:        "MyriadPro-Regular";
-            font-size:          0.6rem;
-            letter-spacing:     0.15em;
-            padding:            0.1cm var( --horizontal-margin ) 0 var( --horizontal-margin );
-            text-align:         right;
-            text-transform:     uppercase;
-        }
-    `)
+    const sampleCode =
+        fs.readFileSync( getFileAddress( 'test-case.css' ) , 'utf8' )
 
-//
-// ─── FORMATTING ─────────────────────────────────────────────────────────────────
-//
+    const formattedCode =
+        cssFormatter( sampleCode )
 
-    console.log( cssFormatter( sampleCode ) )
+    fs.writeFileSync( getFileAddress( 'test-case-formatted.css' ), formattedCode )
 
 // ────────────────────────────────────────────────────────────────────────────────

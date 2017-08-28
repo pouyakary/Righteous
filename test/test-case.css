@@ -1,0 +1,229 @@
+
+:root {
+    --image-wide-caption-page-margin:
+        1cm;
+    --image-wide-margin:
+        0.8cm;
+}
+
+
+
+/* Base Tags */
+
+html {
+    background-color:       #f7f7f7;
+    font-size:              0.43cm;
+}
+
+body {
+    background-color:       white;
+    box-sizing:             border-box;
+    margin:                 auto;
+    margin-bottom:          0;
+    margin-top:             0;
+    max-width:              21cm;
+    min-height:             100vh;
+    padding-bottom:         3cm;
+}
+
+header {
+    padding:        1cm 2cm 1cm 0;
+    text-align:     right;
+}
+
+.header-kary-logo {
+    border-radius:      0;
+    height:             1.5cm;
+    margin:             0;
+    width:              1.5cm;
+}
+
+@page {
+    margin:     2cm 0cm 2cm 0cm;
+    size:       A4;
+}
+
+@media print {
+    header {
+        padding-top:    0;
+    }
+}
+
+
+
+/* Elements */
+
+h1, h2, h3, h4, h5, h6 {
+    page-break-after:       avoid;
+    page-break-inside:      avoid;
+}
+
+h1, h2 {
+    font-family:    'MyriadPro-Regular';
+    font-weight:    normal;
+}
+
+h1 {
+    color:          black;
+    font-size:      1.6em;
+    margin:         0 0 0 0;
+    padding:        0;
+}
+
+h2 {
+    border-top:         1pt solid black;
+    font-size:          0.8em;
+    letter-spacing:     10pt;
+    margin-bottom:      14pt;
+    margin-top:         1cm;
+    padding-bottom:     1pt;
+    padding-top:        4pt;
+    text-align:         right;
+    text-transform:     uppercase;
+}
+
+li, p {
+    font-family:    'Cormorant-Book';
+    font-size:      1rem;
+    line-height:    1.5;
+    margin:         0 0 0.7rem 0 !important;
+}
+
+code {
+    background-color:           #FFFDF7;
+    border-radius:              2pt;
+    color:                      #BC670E;
+    font-family:                "hasklig";
+    font-size:                  0.85em;
+    font-variant-ligatures:     contextual !important;
+    padding:                    0.5pt 2pt 0.5pt 2pt;
+    vertical-align:             center;
+}
+
+section {
+    margin-bottom:      1rem;
+}
+
+strong {
+    font-family:    "Cormorant-SemiBold";
+}
+
+ul {
+    -webkit-margin-after:       0 !important;
+    -webkit-margin-before:      0 !important;
+    -webkit-padding-start:      0.7cm !important;
+    margin-left:                0;
+}
+
+img {
+    margin-top:     10pt;
+    width:          100%;
+}
+
+
+
+/* legend stuff */
+
+.legend-section {
+    display:            flex;
+    flex-direction:     inherit;
+    margin:             0 0.7cm 0 2cm;
+}
+
+@media print {
+    .legend-section:first-child {
+        margin-top:     0;
+    }
+}
+
+.legend-paragraph {
+    flex:       auto;
+}
+
+.legend-sidebar {
+    flex-basis:     auto;
+    flex-grow:      1;
+    font-size:      0.9rem;
+    margin-left:    0.5cm;
+    max-width:      5.5cm;
+    min-width:      5.5cm;
+}
+
+.legend-bullet {
+    border-radius:          0.1cm;
+    color:                  black;
+    display:                flex;
+    font-family:            'hasklig';
+    font-size:              0.7em;
+    line-height:            1.5;
+    margin-bottom:          10pt;
+    page-break-inside:      avoid !important;
+}
+
+.legend-bullet-number {
+    flex:                   auto;
+    max-width:              fit-content;
+    padding:                0cm 0.2cm 0cm 0.2cm;
+    page-break-inside:      avoid;
+}
+
+.legend-bullet-content {
+    border-left:            1.5pt #eee solid;
+    flex:                   auto;
+    padding:                0cm 0.3cm 0cm 0.3cm;
+    page-break-inside:      avoid;
+}
+
+.legend-bullet-content code {
+    font-size:      0.6rem;
+}
+
+.legend-sup {
+    font-size:      0.8em;
+}
+
+.legend-sup::after {
+    content:    ") ";
+}
+
+.legend-sup::before {
+    content:    " (";
+}
+
+.legend-sup a, .legend-sup a:visited {
+    background:     none;
+    color:          black;
+}
+
+.legend-sup a:focus, .legend-sup a:hover {
+    background:         none;
+    text-decoration:    underline;
+}
+
+.legend-paragraph ul {
+    margin:     0 !important;
+}
+
+
+
+/* figures */
+
+figure.wide-image {
+    margin:     0 var( --image-wide-margin ) 0.6cm var( --image-wide-margin );
+}
+
+figure.wide-image > img {
+    border-radius:      0.13cm;
+}
+
+figure.wide-image > figcaption {
+    --horizontal-margin:
+        calc( var( --image-wide-caption-page-margin ) - var( --image-wide-margin ) );
+
+    font-family:        "MyriadPro-Regular";
+    font-size:          0.6rem;
+    letter-spacing:     0.15em;
+    padding:            0.1cm var( --horizontal-margin ) 0 var( --horizontal-margin );
+    text-align:         right;
+    text-transform:     uppercase;
+}
