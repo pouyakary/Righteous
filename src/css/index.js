@@ -42,8 +42,18 @@
     function formatStyleSheet ( stylesheet ) {
         const { rules } = stylesheet
         const results = [ ]
-        const formattedBodyRules = formatBodyOfRules( rules )
-        return "\n" + formattedBodyRules.join('\n\n').trim( ) + "\n"
+
+        const formattedBodyRules =
+            formatBodyOfRules( rules )
+
+        const noTrillingWhitespaceBodyString =
+            formattedBodyRules  .join( '\n\n' )
+                                .split( '\n' )
+                                .map( line => line.trimRight( ) )
+                                .join( '\n' )
+                                .trim( )
+
+        return "\n" + noTrillingWhitespaceBodyString + "\n"
     }
 
 //

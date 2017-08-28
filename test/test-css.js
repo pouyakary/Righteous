@@ -10,20 +10,16 @@
 //
 
     const sampleCode = (`
-        @media ( max-width: 100pt ) {
-            header {
-                color: #eee;
-            }
-        }
+        figure.wide-image > figcaption {
+            --horizontal-margin:
+                calc( var( --image-wide-caption-page-margin ) - var( --image-wide-margin ) );
 
-        /* hello */
-
-        @page {
-
-        }
-
-        @page:left {
-            margin: right;
+            font-family:        "MyriadPro-Regular";
+            font-size:          0.6rem;
+            letter-spacing:     0.15em;
+            padding:            0.1cm var( --horizontal-margin ) 0 var( --horizontal-margin );
+            text-align:         right;
+            text-transform:     uppercase;
         }
     `)
 
