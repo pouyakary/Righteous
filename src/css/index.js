@@ -1,9 +1,6 @@
 
-
 //
-// Righteous - Kary Foundation Styled Code formatter
-//     Copyright 2016-present By Kary Foundation, Inc.
-//     Author: Pouya Kary <k@karyfoundation.org>
+// Righteous 2018-present By Pouya Kary <pouya@kary.us>
 //
 
 //
