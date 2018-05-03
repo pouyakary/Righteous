@@ -18,6 +18,7 @@
         media:      formatMedia,
         rule:       formatRule,
         page:       formatRule,
+        import:     formatImport,
     }
 
 //
@@ -48,6 +49,7 @@
                                 .split( '\n' )
                                 .map( line => line.trimRight( ) )
                                 .join( '\n' )
+                                .replace( /;\n\n@import/g, ";\n@import" )
                                 .trim( )
 
         return "\n" + noTrillingWhitespaceBodyString + "\n"
@@ -64,6 +66,16 @@
             results.push( formatter( element ) )
         }
         return results
+    }
+
+
+//
+// ─── FORMAT IMPORT ──────────────────────────────────────────────────────────────
+//
+
+    function formatImport ( element ) {
+        console.log( element )
+        return "@import " + element.import + ";"
     }
 
 //

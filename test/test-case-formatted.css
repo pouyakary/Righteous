@@ -1,4 +1,8 @@
 
+@import "url";
+@import "something-else";
+@import "something-really-really-else";
+
 :root {
     --image-wide-caption-page-margin:
         1cm;
@@ -226,4 +230,10 @@ figure.wide-image > figcaption {
     padding:            0.1cm var( --horizontal-margin ) 0 var( --horizontal-margin );
     text-align:         right;
     text-transform:     uppercase;
+}
+
+@media only screen and (min-width: 33.75em) {
+    .container {
+        width:      80%;
+    }
 }
