@@ -285,10 +285,10 @@
     function formatInlineComment ( declaration ) {
         if ( previousBlockWasComment ) {
             previousBlockWasComment = true
-            return "/* " + declaration.comment + " */"
+            return "/* " + declaration.comment.trim( ) + " */"
         } else {
             previousBlockWasComment = true
-            return "\n/* " + declaration.comment + " */"
+            return "\n/* " + declaration.comment.trim( ) + " */"
         }
     }
 
