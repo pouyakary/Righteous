@@ -4,10 +4,22 @@
 @import "something-really-really-else";
 
 :root {
+    /*  a  */
+    /*  b  */
+    /*  c  */
     --image-wide-caption-page-margin:
         1cm;
+
+    /*  d  */
+    /*  e  */
     --image-wide-margin:
         0.8cm;
+
+
+    /*  hey  */
+    font-family:        "Cormorant";
+    font-size:          1.2rem;
+    padding-bottom:     0.5rem;
 }
 
 html {
@@ -66,11 +78,14 @@ h1 {
 }
 
 .kf-topic-page-article h2 {
+    /*  hello world  */
     border-top:         1px solid black;
     font-size:          0.8em;
     letter-spacing:     10px;
     margin-bottom:      14px;
     padding-bottom:     1px;
+
+    /*  how are you?  */
     padding-top:        4px;
     text-align:         right;
     text-transform:     uppercase;
@@ -137,12 +152,12 @@ h1 {
 }
 
 .kf-topic-tab-middle {
-    max-width:              fit-content;
     -moz-user-select:       none;
+    font-weight:            700;
     -webkit-user-select:    none;
     background-color:       white;
     font-size:              1.2rem;
-    font-weight:            700;
+    max-width:              fit-content;
     min-height:             2.2rem;
     min-width:              fit-content;
     overflow:               hidden;
@@ -451,15 +466,15 @@ h1 {
 }
 
 #kf-topic-page-header-title {
+    font-size:              1.2rem;
     padding-bottom:         0.2rem;
     -moz-user-select:       none;
-    padding-left:           0.9rem;
-    -webkit-user-select:    none;
-    -ms-user-select:        none;
-    border-left:            2px solid #5D5D5D;
-    color:                  white;
-    font-size:              1.2rem;
     left:                   12rem;
+    border-left:            2px solid #5D5D5D;
+    -webkit-user-select:    none;
+    color:                  white;
+    -ms-user-select:        none;
+    padding-left:           0.9rem;
     padding-top:            0.2rem;
     position:               fixed;
     top:                    0.6rem;

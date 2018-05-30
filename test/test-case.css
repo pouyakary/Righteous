@@ -4,10 +4,21 @@
 @import "something-really-really-else";
 
 :root {
+    /* a */
+    /* b */
+    /* c */
     --image-wide-caption-page-margin:
         1cm;
+
+    /* d */
+    /* e */
     --image-wide-margin:
         0.8cm;
+
+    /* hey */
+    font-family:        "Cormorant";
+    font-size:          1.2rem;
+    padding-bottom:     0.5rem;
 }
 
 html {
@@ -66,11 +77,13 @@ h1 {
 }
 
 .kf-topic-page-article h2 {
+    /* hello world */
     border-top:         1px solid black;
     font-size:          0.8em;
     letter-spacing:     10px;
     margin-bottom:      14px;
     padding-bottom:     1px;
+    /* how are you? */
     padding-top:        4px;
     text-align:         right;
     text-transform:     uppercase;

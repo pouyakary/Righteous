@@ -22,6 +22,13 @@
     }
 
 //
+// ─── GLOBALS ────────────────────────────────────────────────────────────────────
+//
+
+    var previousBlockWasComment =
+        false
+
+//
 // ─── CSS FORMATTER MAIN ─────────────────────────────────────────────────────────
 //
 
@@ -115,6 +122,8 @@
 //
 
     function formatRule ( element ) {
+        previousBlockWasComment = true
+
         const { selectors, declarations, type } = element
         const formattedHeader =
             getRuleHeader( element )
@@ -146,11 +155,39 @@
     function filterVariablesAndProperties ( declarations ) {
         const listOfProperties = [ ]
         const listOfVariables = [ ]
-        for ( const deceleration of declarations )
-            if (  deceleration.property.startsWith( '--' ) )
-                listOfVariables.push( deceleration )
-            else
-                listOfProperties.push( deceleration )
+
+        function isTheNextDeclarationVariable ( startingIndex ) {
+            for ( let index = startingIndex; index < declarations.length; index++ ) {
+                const deceleration =
+                    declarations[ index ]
+                if ( deceleration.type === "declaration" )
+                    return deceleration.property.startsWith( '--' )
+            }
+        }
+
+        for ( let index = 0; index < declarations.length; index++ ) {
+            const deceleration = declarations[ index ]
+            if ( deceleration.type === "comment" ) {
+                // We're checking a comment and comments depend
+                // on their next objects.
+                if ( index >= deceleration.length ) {
+                    listOfProperties.push( deceleration )
+                } else {
+                    if ( isTheNextDeclarationVariable( index ) ) {
+                        listOfVariables.push( deceleration )
+                    } else {
+                        listOfProperties.push( deceleration )
+                    }
+                }
+            } else {
+                // We're checking a normal declaration:
+                if ( deceleration.property.startsWith( '--' ) ) {
+                    listOfVariables.push( deceleration )
+                } else {
+                    listOfProperties.push( deceleration )
+                }
+            }
+        }
 
         return { listOfProperties, listOfVariables }
     }
@@ -177,14 +214,12 @@
 
     function formatProperties ( listOfProperties ) {
         const results = [ ]
-        const sortedProperties =
-            sortProperties( listOfProperties )
         const maxPropertyLength =
             getMaxPropertyNameLength( listOfProperties )
         const padSize =
             ( Math.ceil( ( maxPropertyLength + 1 ) / 4 ) + 1 ) * 4
 
-        for ( const propertyDeceleration of sortedProperties )
+        for ( const propertyDeceleration of listOfProperties )
             results.push(
                 formatSinglePropertyDeceleration(
                     propertyDeceleration, padSize ) )
@@ -220,7 +255,10 @@
 
     function getMaxPropertyNameLength ( declarations ) {
         const propertyLengths =
-            declarations.map( deceleration => deceleration.property.length )
+            declarations
+                .filter( declaration => declaration.type === "declaration" )
+                .map( deceleration => deceleration.property.length )
+
         return Math.max( ...propertyLengths )
     }
 
@@ -229,11 +267,29 @@
 //
 
     function formatSinglePropertyDeceleration ( deceleration, padSize ) {
+        if ( deceleration.type === "comment" )
+            return formatInlineComment( deceleration )
+
         const { property, value } = deceleration
         const paddedPropertyName =
             ( property + ":" ).padEnd( padSize )
 
+        previousBlockWasComment = false
         return paddedPropertyName + value + ';'
+    }
+
+//
+// ─── FORMAT INLINE COMMENT ──────────────────────────────────────────────────────
+//
+
+    function formatInlineComment ( declaration ) {
+        if ( previousBlockWasComment ) {
+            previousBlockWasComment = true
+            return "/* " + declaration.comment + " */"
+        } else {
+            previousBlockWasComment = true
+            return "\n/* " + declaration.comment + " */"
+        }
     }
 
 //
@@ -241,7 +297,12 @@
 //
 
     function formatSingleVariableDeceleration ( deceleration ) {
+        if ( deceleration.type === "comment" )
+            return formatInlineComment( deceleration )
+
         const { property, value } = deceleration
+
+        previousBlockWasComment = false
         return property + ':\n    ' + value + ';'
     }
 
