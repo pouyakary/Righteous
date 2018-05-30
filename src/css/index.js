@@ -74,7 +74,6 @@
 //
 
     function formatImport ( element ) {
-        console.log( element )
         return "@import " + element.import + ";"
     }
 
@@ -179,7 +178,7 @@
     function formatProperties ( listOfProperties ) {
         const results = [ ]
         const sortedProperties =
-            sortDeclarationList( listOfProperties )
+            sortProperties( listOfProperties )
         const maxPropertyLength =
             getMaxPropertyNameLength( listOfProperties )
         const padSize =
@@ -191,6 +190,22 @@
                     propertyDeceleration, padSize ) )
 
         return results
+    }
+
+//
+// ─── SORT PROPERTIES ────────────────────────────────────────────────────────────
+//
+
+    function sortProperties ( listOfProperties ) {
+        var properties =
+            { }
+        listOfProperties
+            .forEach( x => properties[ x.property ] = x )
+
+        return listOfProperties
+            .map( x => x.property )
+            .sort( )
+            .map( key => properties[ key ] )
     }
 
 //
