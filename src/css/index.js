@@ -197,11 +197,9 @@
 //
 
     function sortProperties ( listOfProperties ) {
-        var properties =
-            { }
-        listOfProperties
-            .forEach( x => properties[ x.property ] = x )
-
+        const properties = { }
+        listOfProperties.forEach( x =>
+            properties[ x.property ] = x )
         return listOfProperties
             .map( x => x.property )
             .sort( )
