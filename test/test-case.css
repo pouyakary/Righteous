@@ -15,6 +15,7 @@
     --image-wide-margin:
         0.8cm;
 
+
     /* hey */
     font-family:        "Cormorant";
     font-size:          1.2rem;
@@ -83,6 +84,7 @@ h1 {
     letter-spacing:     10px;
     margin-bottom:      14px;
     padding-bottom:     1px;
+
     /* how are you? */
     padding-top:        4px;
     text-align:         right;
@@ -115,6 +117,10 @@ h1 {
     text-transform:     capitalize;
 }
 
+/*
+ * ─── INSIDE KARY COMMENT ────────────────────────────────────────────────────────
+ */
+
 @media ( max-width: 26cm ) {
     .kf-topic-page-article {
         padding-right:      0, 4rem, 0, 4rem;
@@ -126,6 +132,10 @@ h1 {
         margin:     0, 1rem, 0, 1rem;
     }
 }
+
+/*
+ * ─── STILL INSIDE KARY COMMENT ──────────────────────────────────────────────────
+ */
 
 .kf-topic-page-header {
     background-color:       #141414;
@@ -148,6 +158,10 @@ h1 {
     position:       relative;
     top:            -2.2rem;
 }
+
+
+
+/* ──────────────────────────────────────────────────────────────────────────────── */
 
 .kf-topic-tab-middle {
     -moz-user-select:       none;

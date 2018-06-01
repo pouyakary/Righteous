@@ -10,6 +10,16 @@
     const css = require( 'css' )
 
 //
+// ─── REGULAR EXPRESSIONS ────────────────────────────────────────────────────────
+//
+
+    const KARY_SECTION_COMMENT_DETECTOR =
+        /─{3} (?:(?:[ 0-9a-zA-Z ]|\s))* ─*/g
+
+    const KARY_LINE_COMMENT_DETECTOR =
+        /^-+$/
+
+//
 // ─── FORMATTERS BASED ON TYPE ───────────────────────────────────────────────────
 //
 
@@ -26,6 +36,9 @@
 //
 
     var previousBlockWasComment =
+        false
+
+    var insideKarySectionComment =
         false
 
 //
@@ -69,10 +82,28 @@
     function formatBodyOfRules ( rules ) {
         const results = [ ]
         for ( const element of rules ) {
-            const formatter = formatters[ element.type ]
-            results.push( formatter( element ) )
+            const formatter =
+                formatters[ element.type ]
+            const formattedElement =
+                formatter( element )
+            const karyIndentedElement =
+                checkAndApplyIndentationForKaryComments( element.type, formattedElement )
+            results.push(
+                karyIndentedElement
+            )
         }
         return results
+    }
+
+//
+// ─── CHECK AND APPLY FOR KARY COMMENTS ──────────────────────────────────────────
+//
+
+    function checkAndApplyIndentationForKaryComments ( elementType, formattedElement ) {
+        if ( elementType !== "comment" && insideKarySectionComment )
+            return indentCodeByOneLevel( formattedElement )
+        else
+            return formattedElement
     }
 
 
@@ -106,8 +137,13 @@
     function formatComment ( element ) {
         const { comment } = element
 
-        if ( !/\n/.test( comment ) )
-            return '\n\n/* ' + comment.trim( ) + ' */';
+        if ( KARY_SECTION_COMMENT_DETECTOR.test( comment ) )
+            insideKarySectionComment = true
+        if ( KARY_LINE_COMMENT_DETECTOR.test( comment ) )
+            insideKarySectionComment = false
+
+        // if ( !/\n/.test( comment ) )
+        //     return '\n\n/* ' + comment.trim( ) + ' */';
 
         const newComment =
             comment .split('\n')
@@ -283,12 +319,15 @@
 //
 
     function formatInlineComment ( declaration ) {
+        const commentText =
+            declaration.comment.trim( )
+
         if ( previousBlockWasComment ) {
             previousBlockWasComment = true
-            return "/* " + declaration.comment.trim( ) + " */"
+            return "/* " + commentText + " */"
         } else {
             previousBlockWasComment = true
-            return "\n/* " + declaration.comment.trim( ) + " */"
+            return "\n/* " + commentText + " */"
         }
     }
 
