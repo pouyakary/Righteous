@@ -17,7 +17,7 @@
         /─{3} (?:(?:[ 0-9a-zA-Z ]|\s))* ─*/g
 
     const KARY_LINE_COMMENT_DETECTOR =
-        /^-+$/
+        /^\s*─+\s*$/g
 
 //
 // ─── FORMATTERS BASED ON TYPE ───────────────────────────────────────────────────
