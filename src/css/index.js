@@ -150,7 +150,10 @@
                     .map( line => " " + line.trim( ) )
                     .join('\n')
 
-        return '/*' + newComment + '*/';
+        const optionalSpace =
+            ( !/\n/.test( comment ) ? " " : "" )
+
+        return '/*' + newComment + optionalSpace + '*/';
     }
 
 //

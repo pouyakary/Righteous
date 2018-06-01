@@ -159,7 +159,7 @@ h1 {
         top:            -2.2rem;
     }
 
-/* ────────────────────────────────────────────────────────────────────────────────*/
+/* ──────────────────────────────────────────────────────────────────────────────── */
 
     .kf-topic-tab-middle {
         -moz-user-select:       none;
@@ -508,7 +508,7 @@ h1 {
             }
     }
 
-/* Base Tags*/
+/* Base Tags */
 
     html {
         background-color:       #f7f7f7;
@@ -549,7 +549,7 @@ h1 {
             }
     }
 
-/* Elements*/
+/* Elements */
 
     h1, h2, h3, h4, h5, h6 {
         -webkit-animation:          alternate;
@@ -620,7 +620,7 @@ h1 {
         width:          100%;
     }
 
-/* legend stuff*/
+/* legend stuff */
 
     .legend-section {
         display:            flex;
@@ -702,7 +702,7 @@ h1 {
         margin:     0 !important;
     }
 
-/* figures*/
+/* figures */
 
     figure.wide-image {
         margin:     0 var( --image-wide-margin ) 0.6cm var( --image-wide-margin );
