@@ -5,6 +5,35 @@
 @import "something-else";
 @import "something-really-really-else";
 
+@-webkit-keyframes NAME-YOUR-ANIMATION {
+    0% {
+        opacity:    0;
+    }
+    100% {
+        opacity:    1;
+    }
+}
+
+@keyframes rainbow {
+    0% {
+        color:              #B98EB2;
+        border-color:       #B98EB2;
+    }
+    5% {
+        color:              #D38569;
+        border-color:       #D38569;
+    }
+    35% {
+        color:      #BC9550;
+    }
+    65% {
+        color:      #7DA76F;
+    }
+    85% {
+        color:      #819DC2;
+    }
+}
+
 #kf-header {
     background-color:       black;
     box-shadow:             0 0 0.7rem rgba( 0, 0, 0, 0.4);

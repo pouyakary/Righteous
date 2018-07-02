@@ -29,6 +29,7 @@
         rule:       formatRule,
         page:       formatRule,
         import:     formatImport,
+        keyframes:  formatKeyframes,
     }
 
 //
@@ -63,6 +64,7 @@
 
         const formattedBodyRules =
             formatBodyOfRules( rules )
+
 
         const noTrillingWhitespaceBodyString =
             formattedBodyRules  .join( '\n\n' )
@@ -116,6 +118,37 @@
     }
 
 //
+// ─── FORMAT KEYFRAMES ───────────────────────────────────────────────────────────
+//
+
+    function formatKeyframes ( element ) {
+        // Header
+        const formattedElementHeader = (
+            "@" + ( element.vendor? element.vendor : "" ) + "keyframes " +
+            element.name + " "
+        )
+
+        // Body
+        const formattedFrames = [ ]
+        for ( const keyframe of element.keyframes ) {
+            const formattedHeader =
+                keyframe.values.join(', ') + " "
+            const formattedBody =
+                formatRuleBody( keyframe.declarations )
+            const formattedKeyframe =
+                formattedHeader + "{\n" + formattedBody + "\n}"
+            formattedFrames.push( formattedKeyframe )
+        }
+        const formattedBody =
+            indentCodeByOneLevel( formattedFrames.join( "\n" ) )
+
+        // Done
+        const formattedKeyframesElement =
+            formattedElementHeader + "{\n" + formattedBody + "\n}"
+        return formattedKeyframesElement
+    }
+
+//
 // ─── FORMAT MEDIA ───────────────────────────────────────────────────────────────
 //
 
@@ -163,10 +196,20 @@
     function formatRule ( element ) {
         previousBlockWasComment = true
 
-        const { selectors, declarations, type } = element
         const formattedHeader =
             getRuleHeader( element )
-        const { listOfProperties, listOfVariables } =
+        const formattedBody =
+            formatRuleBody( element.declarations )
+
+        return formattedHeader + " {\n" + formattedBody + "\n}"
+    }
+
+//
+// ─── FORMAT RULE BODY ───────────────────────────────────────────────────────────
+//
+
+    function formatRuleBody ( declarations ) {
+         const { listOfProperties, listOfVariables } =
             filterVariablesAndProperties( declarations )
 
         const formattedVariables =
@@ -184,7 +227,7 @@
         const formattedBody =
             indentCodeByOneLevel( formattedDecelerations.join( '\n' ) )
 
-        return formattedHeader + " {\n" + formattedBody + "\n}"
+        return formattedBody
     }
 
 //
