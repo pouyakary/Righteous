@@ -280,10 +280,8 @@
 
     function formatVariables ( listOfVariables ) {
         const results = [ ]
-        const sortedVariables =
-            sortDeclarationList( listOfVariables )
 
-        for ( const variableDeceleration of sortedVariables )
+        for ( const variableDeceleration of listOfVariables )
             results.push(
                 formatSingleVariableDeceleration( variableDeceleration ))
 

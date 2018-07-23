@@ -1,6 +1,6 @@
 {
   "name": "righteous-core",
-  "version": "2.0.25",
+  "version": "2.0.26",
   "description": "Kary Style TypeScript, JavaScript and CSS Code Formatter Engine",
   "main": "src/index.js",
   "author": "Kary Foundation, Inc.",
