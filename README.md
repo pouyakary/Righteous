@@ -1,30 +1,30 @@
 
-<img src="https://cloud.githubusercontent.com/assets/2157285/18159642/ea4d67e2-703e-11e6-9111-dae6fad8b766.png" width="130" />
+<img src="https://user-images.githubusercontent.com/2157285/45589484-86c3fb80-b93b-11e8-9d5c-98910056f7ce.png" width="500" />
 
-# Righteous
-Kary Foundation Coding Style based code formating server for TypeScript and JavaScript for use within KF's IDES and Editors, presenting the following advantages:
-
-- Understands Kary Foundation Comment's Indentation
-- Understands Kary Foundation's Spacing Policy
-- Supports TypeScript (Uses TypeScript's own compiler service APIs)
+Righteous is a modern CSS 3 formatter that implements the [Kary Coding Standard for CSS](https://coding.standards.kary.us/languages/css). It is a rewriting parsing parser; It reads your CSS code into an AST (abstract syntax tree) and the rewrites that AST into code. This technique allows Righteous to fully format the code based on the specification. This package is the core righteous formatter to be used within other software such as [Righteous for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=karyfoundation.righteous) and similar software.
 
 ### Usage?
+
 Installation:
+
 ```
 % npm install righteous-core --save
 ```
+
 And then ready to use:
-```TypeScript
-import righteous = require('righteous-core');
-let mySourceFile = "..." // some source code...
-let myFormattedSourceFile = righteous( mySourceFile );
+
+```javascript
+const righteous = require( 'righteous-core' )
+const code = "h1 { color: red }"
+try {
+    const formattedCode = righteous( code )
+} catch ( e ) {
+    console.error( "Righteous could not format the code because of" , e )
+}
 ```
+
 The `.d.ts` declaration file is included within the project. Your compiler must auto detect it but if it can't then use:
+
 ```
 /node_modules/righteous/typings/righteous.d.ts
 ```
-
-<br />
-<a href="http://www.karyfoundation.org/">
-    <img src="http://www.karyfoundation.org/foundation/logo/github-full-horse.png" width="250"/>
-</a>
