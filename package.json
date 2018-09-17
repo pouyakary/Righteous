@@ -9,6 +9,6 @@
     "test-css": "node test/test-css.js"
   },
   "dependencies": {
-    "css": "^2.2.1"
+    "css": "^2.2.4"
   }
 }

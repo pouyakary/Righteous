@@ -3,7 +3,7 @@
 // ─── IMPORTS ────────────────────────────────────────────────────────────────────
 //
 
-    const { cssFormatter } = require( '../src/index.js' )
+    const righteous = require( '../src/index.js' )
     const fs = require( 'fs' )
     const path = require( 'path' )
 
@@ -18,7 +18,7 @@
         fs.readFileSync( getFileAddress( 'test-case.css' ) , 'utf8' )
 
     const formattedCode =
-        cssFormatter( sampleCode )
+        righteous( sampleCode )
 
     fs.writeFileSync( getFileAddress( 'test-case-formatted.css' ), formattedCode )
 
