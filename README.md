@@ -39,3 +39,4 @@ The `.d.ts` declaration file is included within the project. Your compiler must 
 ```
 /node_modules/righteous/typings/righteous.d.ts
 ```
+
